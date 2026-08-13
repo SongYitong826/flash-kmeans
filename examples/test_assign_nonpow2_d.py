@@ -25,7 +25,7 @@ from flash_kmeans.centroid_update_triton import (
 
 
 # Mix awkward (non-pow2) and pow2 controls.
-D_LIST = [16, 17, 33, 96, 100, 192, 200, 256, 320, 384, 511, 513, 768, 1000, 1024, 1500, 2049]
+D_LIST = [16, 17, 25, 33, 96, 100, 192, 200, 256, 320, 384, 511, 513, 768, 1000, 1024, 1500, 2049]
 DTYPES = [torch.float16, torch.bfloat16, torch.float32]
 
 

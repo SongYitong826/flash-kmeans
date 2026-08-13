@@ -267,16 +267,19 @@ def _fit_config_to_smem_split_d(
 
     Mirrors ``_fit_config_to_smem`` with the additional ``BLOCK_D`` axis.
     Returns the largest-work config that fits, breaking ties towards the
-    original aspect ratio. ``BLOCK_D`` is also clamped to D when D < BD0
-    (no point materialising more dims than exist).
+    original aspect ratio.  ``BLOCK_D`` must remain a power of two because
+    the split-D kernels pass it to ``tl.arange``.  When the logical D is
+    smaller than a requested tile, retain a masked physical tile rounded up
+    to the next power of two instead of clamping it directly to D.
     """
     BN0 = int(cfg["BLOCK_N"])
     BK0 = int(cfg["BLOCK_K"])
     W0 = int(cfg["num_warps"])
     S0 = int(cfg["num_stages"])
-    BD0 = int(cfg["BLOCK_D"])
-    # No point letting BD exceed D (the loop would still run once).
-    BD0 = min(BD0, max(D, 16))
+    # ``tl.dot`` needs an inner width of at least 16 and ``tl.arange`` needs
+    # a power-of-two range.  For example, D=25 must use a 32-wide tile with
+    # the final seven lanes masked, not BLOCK_D=25.
+    BD0 = min(max(16, _next_pow2(int(cfg["BLOCK_D"]))), _pad_d(D))
 
     if _smem_bytes_split_d(BD0, BN0, BK0, S0, dtype_bytes) <= smem_limit:
         return {
