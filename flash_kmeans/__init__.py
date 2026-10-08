@@ -34,6 +34,22 @@ except Exception:
     kmeans_largeN_assign = no_torch_fallback
     kmeans_largeN = no_torch_fallback
 
+from .training import (
+    FAISS_DEFAULT_MAX_POINTS_PER_CENTROID,
+    FAISS_DEFAULT_MIN_POINTS_PER_CENTROID,
+    FAISS_DEFAULT_NITER,
+    FAISS_DEFAULT_NREDO,
+    FAISS_DEFAULT_SEED,
+    KMEANS_ALGORITHM_BALANCED,
+    KMEANS_ALGORITHM_LLOYD,
+    KMEANS_INIT_KMEANS_PLUS_PLUS,
+    KMEANS_INIT_RANDOM,
+    KMeansTrainingResult,
+    derive_kmeans_seed,
+    fit_best_kmeans,
+    select_training_indices,
+)
+
 __all__ = [
     "batch_kmeans_Euclid",
     "batch_kmeans_Cosine",
@@ -43,6 +59,19 @@ __all__ = [
     "FlashKMeans",
     "kmeans_largeN",
     "kmeans_largeN_assign",
+    "FAISS_DEFAULT_NITER",
+    "FAISS_DEFAULT_NREDO",
+    "FAISS_DEFAULT_MIN_POINTS_PER_CENTROID",
+    "FAISS_DEFAULT_MAX_POINTS_PER_CENTROID",
+    "FAISS_DEFAULT_SEED",
+    "KMEANS_INIT_RANDOM",
+    "KMEANS_INIT_KMEANS_PLUS_PLUS",
+    "KMEANS_ALGORITHM_LLOYD",
+    "KMEANS_ALGORITHM_BALANCED",
+    "KMeansTrainingResult",
+    "derive_kmeans_seed",
+    "fit_best_kmeans",
+    "select_training_indices",
 ]
 
 __version__ = "0.3.1"
